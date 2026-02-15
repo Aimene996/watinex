@@ -21,7 +21,6 @@ import {
 import { ThemeToggle } from './components/ThemeToggle';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { useLanguage } from './providers/LanguageProvider';
-import heroImage from './pat-whelen-xSsWBa4rb6E-unsplash.jpg';
 
 export default function WatinexLanding() {
   const { t } = useLanguage();
@@ -260,15 +259,16 @@ export default function WatinexLanding() {
                   {/* Light gradient overlay only - no blur */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none"></div>
                   
-                  {/* Hero image - pat-whelen containers, no blur */}
+                  {/* Hero image - from public so it works on deployed builds */}
                   <Image
-                    src={heroImage}
+                    src="/pat-whelen-xSsWBa4rb6E-unsplash.jpg"
                     alt="Import Export Logistics - Shipping containers and cargo"
                     fill
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     priority
                     quality={95}
+                    unoptimized
                   />
                   
                   {/* Live tracking badge - solid background, no blur */}
