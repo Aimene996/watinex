@@ -42,6 +42,8 @@ export default function WatinexLanding() {
   ];
 
   const whatsappNumber = '+213794964029';
+  const formattedWhatsappNumber = '+213 (0) 794 96 40 29';
+  const formattedPhoneNumber = '+213 (0) 773 71 37 46';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`;
 
   return (
@@ -108,11 +110,11 @@ export default function WatinexLanding() {
 
                 {/* Main Headline - padding-inline-end so right-edge text is not clipped */}
                 <div className="space-y-2 w-full max-w-full overflow-visible pe-4">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.2] tracking-tight overflow-visible break-words hyphens-none" style={{ wordBreak: 'normal' }}>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.25] lg:leading-[1.2] overflow-visible break-words hyphens-none" style={{ wordBreak: 'normal', letterSpacing: 0 }}>
                     <span className="inline-block pe-[0.15em] max-w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-100 dark:to-white bg-clip-text text-transparent animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                       {t('landing.heroYourGoodsFrom')}
                     </span>
-                    <span className="block mt-2 pe-[0.15em] max-w-full bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent animate-fade-in-up animate-gradient" style={{ animationDelay: '0.2s' }}>
+                    <span className="block mt-2 pe-[0.15em] max-w-full bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent animate-fade-in-up animate-gradient" style={{ animationDelay: '0.2s', letterSpacing: '0.01em' }}>
                       {t('landing.heroChinaDubai')}
                     </span>
                     <span className="block mt-2 pe-[0.15em] max-w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-100 dark:to-white bg-clip-text text-transparent animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
@@ -141,8 +143,8 @@ export default function WatinexLanding() {
                         <Package className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-slate-900 dark:text-white">500+</div>
-                        <div className="text-xs text-slate-600 dark:text-slate-400">Shipments/Month</div>
+                        <div className="text-2xl font-bold text-slate-900 dark:text-white">48h</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400">Dubai Delivery Window</div>
                       </div>
                     </div>
                     
@@ -151,8 +153,8 @@ export default function WatinexLanding() {
                         <Award className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-slate-900 dark:text-white">98%</div>
-                        <div className="text-xs text-slate-600 dark:text-slate-400">Success Rate</div>
+                        <div className="text-2xl font-bold text-slate-900 dark:text-white">2</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400">Direct Contact Lines</div>
                       </div>
                     </div>
                     
@@ -161,8 +163,8 @@ export default function WatinexLanding() {
                         <Globe className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-slate-900 dark:text-white">15+</div>
-                        <div className="text-xs text-slate-600 dark:text-slate-400">Countries</div>
+                        <div className="text-2xl font-bold text-slate-900 dark:text-white">24/7</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400">Support Availability</div>
                       </div>
                     </div>
                   </div>
@@ -221,10 +223,10 @@ export default function WatinexLanding() {
                     <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                   </a>
 
-                  <button className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-700 dark:text-slate-200 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-cyan-500 dark:hover:border-cyan-400 hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl">
+                  <a href="#services" className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-700 dark:text-slate-200 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-cyan-500 dark:hover:border-cyan-400 hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl">
                     {t('landing.ctaViewServices')}
                     <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  </a>
                 </div>
 
                 {/* Trust Indicators - Enhanced with icons */}
@@ -282,7 +284,7 @@ export default function WatinexLanding() {
                           </div>
                           <div>
                             <div className="text-sm font-bold text-slate-900 dark:text-white">{t('landing.liveTracking')}</div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400">Real-time updates</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">Sourcing and delivery updates</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -309,7 +311,7 @@ export default function WatinexLanding() {
         </section>
 
         {/* Services Section */}
-        <section className="relative z-10 py-16 lg:py-24 px-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+        <section id="services" className="relative z-10 py-16 lg:py-24 px-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
@@ -329,10 +331,9 @@ export default function WatinexLanding() {
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl pointer-events-none`}></div>
                   
-                  <div className="relative mb-6">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} rounded-xl opacity-50 group-hover:opacity-75 transition-opacity`}></div>
-                    <div className={`relative bg-gradient-to-br ${service.gradient} p-4 rounded-xl inline-block`}>
-                      <service.icon className="w-8 h-8 text-white" />
+                  <div className="mb-6">
+                    <div className={`bg-gradient-to-br ${service.gradient} p-2.5 rounded-lg inline-block`}>
+                      <service.icon className="w-5 h-5 text-white" />
                     </div>
                   </div>
 
@@ -490,9 +491,16 @@ export default function WatinexLanding() {
                 <ul className="space-y-2 text-base text-slate-400">
                   <li className="flex items-center space-x-2">
                     <MessageCircle className="w-4 h-4 text-cyan-400" />
-                    <span>{whatsappNumber}</span>
+                    <span>{formattedWhatsappNumber}</span>
                   </li>
-                  <li>{t('landing.algeria')}</li>
+                  <li className="flex items-center space-x-2">
+                    <MessageCircle className="w-4 h-4 text-cyan-400" />
+                    <span>{formattedPhoneNumber}</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <Globe className="w-4 h-4 text-cyan-400" />
+                    <span>{t('landing.contactAddress')}</span>
+                  </li>
                 </ul>
               </div>
             </div>
