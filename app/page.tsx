@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import watinexLogo from './logo vertical.png';
 import {
   Ship,
   Plane,
@@ -69,18 +70,20 @@ export default function WatinexLanding() {
         <nav className="relative z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 border-b border-slate-200/50 dark:border-slate-800/50 sticky top-0 shadow-sm">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex justify-between items-center h-16 lg:h-20">
-              {/* Logo with enhanced animation */}
-              <div className="flex items-center space-x-2 group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg blur-md opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative bg-gradient-to-r from-cyan-500 to-blue-600 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                    <Ship className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
-                  </div>
-                </div>
-                <span className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-100 dark:to-white bg-clip-text text-transparent tracking-tight">
-                  Watinex
-                </span>
-              </div>
+              {/* Official brand logo */}
+              <a
+                href="/"
+                className="flex items-center shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-md"
+                aria-label="Watinex Import Company — home"
+              >
+                <Image
+                  src={watinexLogo}
+                  alt="Watinex Import Company logo: stylized W with ship, plane, and truck"
+                  className="h-9 w-auto max-w-[min(100vw-8rem,280px)] lg:h-11 object-contain object-left dark:brightness-110 dark:contrast-105"
+                  priority
+                  sizes="280px"
+                />
+              </a>
 
               {/* Theme & Language */}
               <div className="flex items-center gap-2">
@@ -465,11 +468,14 @@ export default function WatinexLanding() {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
               <div>
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="bg-gradient-to-r from-cyan-500 to-blue-600 p-2 rounded-lg">
-                    <Ship className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="text-2xl font-bold">Watinex</span>
+                <div className="mb-4">
+                  <Image
+                    src={watinexLogo}
+                    alt=""
+                    role="presentation"
+                    className="h-10 w-auto max-w-[240px] object-contain object-left opacity-95"
+                    sizes="240px"
+                  />
                 </div>
                 <p className="text-base text-slate-400 leading-relaxed">
                   {t('landing.footerTagline')}
