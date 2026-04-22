@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: import
+      POSTGRES_PASSWORD: import
+      POSTGRES_DB: import_platform
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U import -d import_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://import:import@postgres:5432/import_platform
+      PORT: "4000"
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001,http://localhost:3002
+      ADMIN_API_KEY: dev-admin-change-me-use-long-secret-in-production
+      CONTACT_SLA_HOURS: "24"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        API_INTERNAL_URL: http://backend:4000
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      NEXT_PUBLIC_CONTACT_SLA_HOURS: "24"
+    depends_on:
+      - backend
+
+  admin:
+    build:
+      context: .
+      dockerfile: apps/admin/Dockerfile
+      args:
+        API_INTERNAL_URL: http://backend:4000
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: "3001"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

@@ -1,1 +1,22 @@
-# watinex
+# import-platform
+
+Monorepo: **frontend** (Next.js), **admin** (Next.js), **backend** (Express + Prisma), **Docker** (Postgres + all services).
+
+## Local development
+
+From the repository root:
+
+- `npm install`
+- `npm run dev:frontend` — http://localhost:3000
+- `npm run dev:admin` — http://localhost:3001
+- `npm run dev:backend` — http://localhost:4000 (set `DATABASE_URL` in `apps/backend/.env`; see `apps/backend/.env.example`)
+
+Database: `npm run db:migrate` (with Postgres running) or `npm run db:push` for prototyping.
+
+Leads: the marketing site posts to `POST /api/leads`. Admin UI (`npm run dev:admin`) calls `GET/PATCH /api/admin/leads` and related routes using the `x-admin-api-key` header. Set `ADMIN_API_KEY` in `apps/backend/.env` (see `apps/backend/.env.example`) and paste the same value into the admin “API key” field.
+
+## Docker
+
+`docker compose up --build` starts Postgres, API, marketing site, and admin. Ports: **5432**, **4000**, **3000**, **3001**.
+
+If Tailwind native bindings fail after `npm install`, remove `node_modules` and `package-lock.json`, then run `npm install` again (see [npm optional-deps bug](https://github.com/npm/cli/issues/4828)).
