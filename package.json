@@ -12,7 +12,9 @@
     "build": "npm run build --workspaces --if-present",
     "build:frontend": "npm run build --workspace=@import-platform/frontend",
     "build:admin": "npm run build --workspace=@import-platform/admin",
-    "lint": "npm run lint --workspaces --if-present"
+    "lint": "npm run lint --workspaces --if-present",
+    "db:migrate": "node ./scripts/migrate-db.mjs",
+    "db:migration:new": "node ./scripts/new-migration.mjs"
   },
   "engines": {
     "node": ">=20"

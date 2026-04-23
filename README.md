@@ -11,7 +11,13 @@ From the repository root:
 - `npm run dev:admin` — http://localhost:3001
 - `npm run dev:backend` — http://localhost:4000 (set `DATABASE_URL` in `apps/backend/.env`; see `apps/backend/.env.example`)
 
-Database: `npm run db:migrate` (with Postgres running) or `npm run db:push` for prototyping.
+Database migrations use timestamped SQL files in `db/migrations`:
+- `npm run db:migration:new -- add_some_change` creates `YYYYMMDDHHmmss_add_some_change.sql`
+- `npm run db:migrate` applies pending migrations in order and records them in `schema_migrations`
+
+For quick local UI testing, two starter migrations are included:
+- `create_registrations` (core table/indexes/triggers used by frontend + admin)
+- `seed_registrations_for_testing` (sample registrations)
 
 Leads: the marketing site posts to `POST /api/leads`. Admin UI (`npm run dev:admin`) calls `GET/PATCH /api/admin/leads` and related routes using the `x-admin-api-key` header. Set `ADMIN_API_KEY` in `apps/backend/.env` (see `apps/backend/.env.example`) and paste the same value into the admin “API key” field.
 

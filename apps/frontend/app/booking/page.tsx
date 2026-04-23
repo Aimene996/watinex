@@ -38,6 +38,7 @@ export default function BookingRegistrationPage() {
   const [email, setEmail] = useState('');
   const [importedBefore, setImportedBefore] = useState<boolean | null>(null);
   const [niche, setNiche] = useState<string[]>([]);
+  const [nicheDropdownOpen, setNicheDropdownOpen] = useState(false);
   const [serviceType, setServiceType] = useState<ServiceType | null>(null);
 
   const steps = useMemo(
@@ -277,34 +278,55 @@ export default function BookingRegistrationPage() {
                     </div>
                   </fieldset>
 
-                  {/* Niche Selection Grid */}
+                  {/* Niche Selection Dropdown */}
                   <fieldset>
                     <legend className={labelClass}>{t('booking.nicheLabel')}</legend>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
-                      {nichesList.map((item) => {
-                        const isSelected = niche.includes(item.id);
-                        return (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => toggleNiche(item.id)}
-                            className={`flex flex-col items-center justify-center text-center gap-2 rounded-xl border-2 p-3 sm:p-4 font-semibold text-sm transition-all ${
-                              isSelected
-                                ? 'border-blue-600 bg-blue-50 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200'
-                                : 'border-slate-200 text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:text-slate-300'
-                            }`}
-                          >
-                            <div className="relative">
-                              {isSelected && (
-                                <div className="absolute -top-2 -end-2 bg-blue-600 text-white rounded-full p-0.5 shadow-sm">
-                                  <Check className="w-3 h-3" />
-                                </div>
-                              )}
-                            </div>
-                            {item.label}
-                          </button>
-                        );
-                      })}
+                    <div className="mt-2">
+                      <button
+                        type="button"
+                        onClick={() => setNicheDropdownOpen((prev) => !prev)}
+                        className="flex w-full items-center justify-between rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                        aria-expanded={nicheDropdownOpen}
+                      >
+                        <span>
+                          {niche.length > 0
+                            ? `${niche.length} ${t('booking.step2Short')}`
+                            : t('booking.nicheLabel')}
+                        </span>
+                        <span className={`transition-transform ${nicheDropdownOpen ? 'rotate-180' : ''}`}>▾</span>
+                      </button>
+
+                      {nicheDropdownOpen && (
+                        <div className="mt-2 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2 dark:border-slate-700 dark:bg-slate-900/70">
+                          {nichesList.map((item) => {
+                            const isSelected = niche.includes(item.id);
+                            return (
+                              <button
+                                key={item.id}
+                                type="button"
+                                onClick={() => toggleNiche(item.id)}
+                                className={`flex w-full items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-start font-semibold text-sm transition-all ${
+                                  isSelected
+                                    ? 'border-blue-600 bg-blue-50 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200'
+                                    : 'border-slate-200 text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:text-slate-300'
+                                }`}
+                              >
+                                <span>{item.label}</span>
+                                <span
+                                  className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+                                    isSelected
+                                      ? 'border-blue-600 bg-blue-600 text-white'
+                                      : 'border-slate-300 dark:border-slate-600'
+                                  }`}
+                                  aria-hidden
+                                >
+                                  {isSelected ? <Check className="h-3.5 w-3.5" /> : null}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   </fieldset>
                 </div>

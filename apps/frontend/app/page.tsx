@@ -12,6 +12,7 @@ import {
   Minus,
   LogIn,
   ClipboardList,
+  Send,
 } from 'lucide-react';
 import { ThemeToggle } from './components/ThemeToggle';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
@@ -37,6 +38,7 @@ export default function WatinexLanding() {
 
   const whatsappNumber = '+213794964029';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`;
+  const telegramGroupUrl = process.env.NEXT_PUBLIC_TELEGRAM_GROUP_URL ?? 'https://t.me/watinex';
 
   const navLinks = [
     { key: 'nav.about', href: '#about' },
@@ -141,6 +143,19 @@ export default function WatinexLanding() {
 
         {/* ─── Hero ─── */}
         <HeroSection whatsappLink={whatsappLink} />
+        <section className="px-4 pt-2 pb-6">
+          <div className="mx-auto max-w-6xl text-center">
+            <Link
+              href={telegramGroupUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-sky-500 to-sky-700 px-8 py-4 text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_8px_0_0_#0369a1,0_18px_30px_-14px_rgba(2,132,199,0.8)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_0_0_#0369a1,0_22px_34px_-14px_rgba(2,132,199,0.85)] active:translate-y-1 active:shadow-[0_4px_0_0_#0369a1,0_12px_24px_-14px_rgba(2,132,199,0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60"
+            >
+              <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              Join Telegram Group
+            </Link>
+          </div>
+        </section>
 
         {/* ─── About Us ─── */}
         <AboutSection />
