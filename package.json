@@ -14,7 +14,8 @@
     "build:admin": "npm run build --workspace=@import-platform/admin",
     "lint": "npm run lint --workspaces --if-present",
     "db:migrate": "node ./scripts/migrate-db.mjs",
-    "db:migration:new": "node ./scripts/new-migration.mjs"
+    "db:migration:new": "node ./scripts/new-migration.mjs",
+    "admin:create": "node ./scripts/create-admin-user.mjs"
   },
   "engines": {
     "node": ">=20"

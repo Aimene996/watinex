@@ -21,6 +21,13 @@ For quick local UI testing, two starter migrations are included:
 
 Leads: the marketing site posts to `POST /api/leads`. Admin UI (`npm run dev:admin`) calls `GET/PATCH /api/admin/leads` and related routes using the `x-admin-api-key` header. Set `ADMIN_API_KEY` in `apps/backend/.env` (see `apps/backend/.env.example`) and paste the same value into the admin “API key” field.
 
+To create the first admin login for the Supabase-powered dashboard:
+- export `SUPABASE_URL` (or reuse `NEXT_PUBLIC_SUPABASE_URL`)
+- export `SUPABASE_SERVICE_ROLE_KEY`
+- run `npm run admin:create -- admin@your-company.com StrongPassword123!`
+
+Then open the admin app (`npm run dev:admin`) and sign in at `/login`.
+
 ## Docker
 
 `docker compose up --build` starts Postgres, API, marketing site, and admin. Ports: **5432**, **4000**, **3000**, **3001**.

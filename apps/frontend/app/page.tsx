@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import watinexLogo from './logo vertical.png';
 import Link from 'next/link';
@@ -29,16 +29,70 @@ import { TestimonialsRow } from './components/TestimonialsRow';
 import { ContactCTA } from './components/ContactCTA';
 import { Footer } from './components/Footer';
 import { StickyActionBar } from './components/StickyActionBar';
+import { FinancingAlert } from './components/FinancingAlert';
 import { useLanguage } from './providers/LanguageProvider';
+import { supabase } from '../lib/supabase';
 
 export default function WatinexLanding() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginSubmitting, setLoginSubmitting] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const whatsappNumber = '+213794964029';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`;
   const telegramGroupUrl = process.env.NEXT_PUBLIC_TELEGRAM_GROUP_URL ?? 'https://t.me/watinex';
+  const adminLoginUrl = process.env.NEXT_PUBLIC_ADMIN_LOGIN_URL ?? 'http://localhost:3001/login';
+  const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? 'admin@your-company.com')
+    .split(',')
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+    const timer = window.setTimeout(() => setToastMessage(null), 2500);
+    return () => window.clearTimeout(timer);
+  }, [toastMessage]);
+
+  const handleLoginSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const normalizedEmail = loginEmail.trim().toLowerCase();
+    if (!normalizedEmail) return;
+
+    const isAdminEmail =
+      adminEmails.includes(normalizedEmail) || normalizedEmail.startsWith('admin@');
+
+    if (!isAdminEmail) {
+      setLoginModalOpen(false);
+      setMobileMenuOpen(false);
+      setLoginEmail('');
+      setLoginPassword('');
+      setToastMessage('User access is coming soon');
+      return;
+    }
+
+    setLoginSubmitting(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: normalizedEmail,
+      password: loginPassword,
+    });
+    setLoginSubmitting(false);
+
+    if (error) {
+      setToastMessage('Invalid admin email or password');
+      return;
+    }
+
+    setLoginModalOpen(false);
+    setMobileMenuOpen(false);
+    setLoginEmail('');
+    setLoginPassword('');
+    window.location.href = adminLoginUrl;
+  };
 
   const navLinks = [
     { key: 'nav.about', href: '#about' },
@@ -90,6 +144,17 @@ export default function WatinexLanding() {
 
               {/* Right side actions */}
               <div className="flex items-center gap-2">
+                <div className="relative hidden sm:block">
+                  <button
+                    type="button"
+                    onClick={() => setLoginModalOpen(true)}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+                  >
+                    <LogIn className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    {t('nav.mySpace')}
+                  </button>
+                </div>
+
                 <Link
                   href="/booking"
                   className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
@@ -128,6 +193,13 @@ export default function WatinexLanding() {
                   </a>
                 ))}
                 <div className="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setLoginModalOpen(true)}
+                    className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                  >
+                    {t('nav.mySpace')}
+                  </button>
                   <Link
                     href="/booking"
                     onClick={() => setMobileMenuOpen(false)}
@@ -143,6 +215,9 @@ export default function WatinexLanding() {
 
         {/* ─── Hero ─── */}
         <HeroSection whatsappLink={whatsappLink} />
+
+        {/* ─── 75% Financing Alert ─── */}
+        <FinancingAlert />
         <section className="px-4 pt-2 pb-6">
           <div className="mx-auto max-w-6xl text-center">
             <Link
@@ -248,6 +323,56 @@ export default function WatinexLanding() {
           <MessageCircle className="w-7 h-7" />
         </a>
       </div>
+
+      {toastMessage && (
+        <div className="fixed right-4 top-20 z-[70] rounded-xl border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800 shadow-lg dark:border-amber-700 dark:bg-amber-950/80 dark:text-amber-200">
+          {toastMessage}
+        </div>
+      )}
+
+      {loginModalOpen && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100">Login</h3>
+              <button
+                type="button"
+                onClick={() => setLoginModalOpen(false)}
+                className="rounded-lg p-1 text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                aria-label="Close login"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <form onSubmit={handleLoginSubmit} className="space-y-3">
+              <input
+                type="email"
+                required
+                autoFocus
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                placeholder="Email"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+              />
+              <input
+                type="password"
+                required
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                placeholder="Password"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+              />
+              <button
+                type="submit"
+                disabled={loginSubmitting}
+                className="w-full rounded-lg bg-blue-600 px-3 py-2.5 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-60"
+              >
+                {loginSubmitting ? 'Checking...' : 'Continue'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       <StickyActionBar whatsappLink={whatsappLink} />
     </>

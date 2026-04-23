@@ -3,6 +3,12 @@
 :root {
   --background: #0a0e1a;
   --foreground: #f0f4ff;
+  --accent-blue: #3b82f6;
+  --accent-violet: #8b5cf6;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(148, 163, 184, 0.08);
 }
 
 * {
@@ -19,11 +25,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Scrollbar ───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
+/* ── Core Animations ─────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -42,7 +50,91 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
+/* ── Drawer Animations ───────────────────────────────── */
+@keyframes drawerSlideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes drawerSlideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes overlayFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ── Modal Animations ────────────────────────────────── */
+@keyframes modalScaleIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Skeleton Pulse ──────────────────────────────────── */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.15; }
+}
+
+/* ── Sidebar Mobile ──────────────────────────────────── */
+@keyframes sidebarSlideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* ── Number Counter ──────────────────────────────────── */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Utility Classes ─────────────────────────────────── */
 .animate-fade-in { animation: fadeIn 0.3s ease-out; }
 .animate-slide-up { animation: slideUp 0.35s ease-out; }
 .animate-pulse-ring { animation: pulse-ring 2s infinite; }
 .animate-toast-in { animation: toast-in 0.3s ease-out; }
+.animate-drawer-in { animation: drawerSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-drawer-out { animation: drawerSlideOut 0.25s ease-in forwards; }
+.animate-overlay-in { animation: overlayFadeIn 0.25s ease-out; }
+.animate-overlay-out { animation: overlayFadeOut 0.2s ease-in forwards; }
+.animate-modal-in { animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-sidebar-in { animation: sidebarSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-count-up { animation: countUp 0.5s ease-out both; }
+.animate-skeleton { animation: skeletonPulse 1.5s ease-in-out infinite; }
+
+/* ── Glassmorphism ───────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Table ───────────────────────────────────────────── */
+.table-row-hover {
+  transition: background-color 0.15s ease;
+}
+.table-row-hover:hover {
+  background-color: rgba(59, 130, 246, 0.06);
+}
+
+/* ── Material Symbols ────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+/* ── Gradient Borders (via pseudo) ───────────────────── */
+.stat-card-blue { border-left: 3px solid var(--accent-blue); }
+.stat-card-violet { border-left: 3px solid var(--accent-violet); }
+.stat-card-amber { border-left: 3px solid var(--accent-amber); }
+.stat-card-emerald { border-left: 3px solid var(--accent-emerald); }
+
+/* ── Focus Ring ──────────────────────────────────────── */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}

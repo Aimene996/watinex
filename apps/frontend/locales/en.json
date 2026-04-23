@@ -7,7 +7,8 @@
     "team": "Team",
     "contact": "Contact",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "mySpace": "My Space"
   },
   "hero": {
     "badge": "Integrated Import Platform",
