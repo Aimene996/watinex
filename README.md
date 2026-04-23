@@ -33,3 +33,4 @@ Then open the admin app (`npm run dev:admin`) and sign in at `/login`.
 `docker compose up --build` starts Postgres, API, marketing site, and admin. Ports: **5432**, **4000**, **3000**, **3001**.
 
 If Tailwind native bindings fail after `npm install`, remove `node_modules` and `package-lock.json`, then run `npm install` again (see [npm optional-deps bug](https://github.com/npm/cli/issues/4828)).
+# watinex-panel
