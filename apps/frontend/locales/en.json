@@ -186,7 +186,7 @@
     "step1Short": "Contact",
     "step2Short": "Products",
     "step3Short": "Service",
-    "step4Short": "Confirm",
+    "step4Short": "Review",
     "fullName": "Full Name",
     "fullNamePlaceholder": "First and last name",
     "phone": "Phone",
@@ -218,9 +218,9 @@
     "privacyNote": "Your information is used only to respond to your request.",
     "back": "Back",
     "next": "Continue",
-    "submit": "Confirm & Submit",
-    "successTitle": "Request Received Successfully",
-    "successBody": "We will call you within 6 to 8 hours to confirm your request and start working.",
+    "submit": "Submit Request",
+    "successTitle": "Request Sent - Waiting for Confirmation",
+    "successBody": "Your registration is pending manual confirmation. We will contact you within 6 to 8 hours. The consultation is 100% free.",
     "errorNetwork": "Could not reach the server.",
     "retry": "Try Again"
   }

@@ -186,7 +186,7 @@
     "step1Short": "Contact",
     "step2Short": "Produits",
     "step3Short": "Service",
-    "step4Short": "Confirmer",
+    "step4Short": "Vérifier",
     "fullName": "Nom complet",
     "fullNamePlaceholder": "Prénom et nom",
     "phone": "Téléphone",
@@ -218,9 +218,9 @@
     "privacyNote": "Vos données servent uniquement à répondre à votre demande.",
     "back": "Retour",
     "next": "Continuer",
-    "submit": "Confirmer et envoyer",
-    "successTitle": "Demande reçue avec succès",
-    "successBody": "Nous vous appellerons dans les 6 à 8 heures pour confirmer votre demande.",
+    "submit": "Envoyer la demande",
+    "successTitle": "Demande envoyée - En attente de confirmation",
+    "successBody": "Votre inscription est en attente d'une confirmation manuelle. Nous vous contacterons sous 6 à 8 heures. La consultation est 100% gratuite.",
     "errorNetwork": "Impossible de joindre le serveur.",
     "retry": "Réessayer"
   }

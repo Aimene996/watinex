@@ -46,7 +46,7 @@ export default function WatinexLanding() {
   const whatsappNumber = '+213794964029';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`;
   const telegramGroupUrl = process.env.NEXT_PUBLIC_TELEGRAM_GROUP_URL ?? 'https://t.me/watinex';
-  const adminLoginUrl = process.env.NEXT_PUBLIC_ADMIN_LOGIN_URL ?? 'http://localhost:3001/login';
+  const adminLoginUrl = process.env.NEXT_PUBLIC_ADMIN_LOGIN_URL ?? '/admin/login';
   const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? 'admin@your-company.com')
     .split(',')
     .map((item) => item.trim().toLowerCase())

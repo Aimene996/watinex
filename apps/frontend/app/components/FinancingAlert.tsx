@@ -101,13 +101,13 @@ export function FinancingAlert() {
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-white mb-2 leading-tight">
                 <span className="financing-text-gradient">75% تاع التمويل</span>
                 <span className="block text-xl md:text-2xl lg:text-3xl font-extrabold text-white/90 mt-1">
-                  3lina 🎉
+                  علينا 🎉
                 </span>
               </h2>
 
               {/* Subtitle */}
               <p className="text-sm md:text-base text-blue-100/80 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                استفد من تمويل يصل إلى <strong className="text-amber-300 font-extrabold">75%</strong> من قيمة talabiya — نحن ندعمك في كل خطوة!
+                استفد من تمويل يصل إلى <strong className="text-amber-300 font-extrabold">75%</strong> من قيمة الطلبية — نحن ندعمك في كل خطوة!
               </p>
 
               {/* Trust indicators */}
