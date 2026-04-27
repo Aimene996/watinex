@@ -21,7 +21,6 @@ import FilterBar from "./components/FilterBar";
 import RegistrationTable from "./components/RegistrationTable";
 import DetailDrawer from "./components/DetailDrawer";
 import SkeletonTable from "./components/SkeletonTable";
-import WelcomeRegistrationPopup from "./components/WelcomeRegistrationPopup";
 
 const PAGE_SIZE = 15;
 
@@ -2007,7 +2006,6 @@ export default function AdminDashboard() {
         text={text}
         locale={language}
       />
-      <WelcomeRegistrationPopup />
 
     </div>
   );
