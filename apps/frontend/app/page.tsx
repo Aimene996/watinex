@@ -20,7 +20,6 @@ import { AboutSection } from './components/AboutSection';
 import { ExpertiseCards } from './components/ExpertiseCards';
 import { MissionBanner } from './components/MissionBanner';
 import { WhyChooseUs } from './components/WhyChooseUs';
-import { TeamSection } from './components/TeamSection';
 import { ServicesDetail } from './components/ServicesDetail';
 import { ProcessSteps } from './components/ProcessSteps';
 import { MetricsStrip } from './components/MetricsStrip';
@@ -85,7 +84,6 @@ export default function WatinexLanding() {
     { key: 'nav.about', href: '#about' },
     { key: 'nav.services', href: '#services' },
     { key: 'nav.process', href: '#process' },
-    { key: 'nav.team', href: '#team' },
     { key: 'nav.contact', href: '#contact' },
   ];
 
@@ -213,7 +211,7 @@ export default function WatinexLanding() {
         <WhyChooseUs />
 
         {/* ─── Team ─── */}
-        <TeamSection />
+        {/* <TeamSection /> */}
 
         {/* ─── Services Detail ─── */}
         <ServicesDetail />
