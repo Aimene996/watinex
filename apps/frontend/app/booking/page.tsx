@@ -40,6 +40,7 @@ export default function BookingRegistrationPage() {
   const [niche, setNiche] = useState<string[]>([]);
   const [nicheDropdownOpen, setNicheDropdownOpen] = useState(false);
   const [serviceType, setServiceType] = useState<ServiceType | null>(null);
+  const [detailsConfirmed, setDetailsConfirmed] = useState(false);
 
   const steps = useMemo(
     () => [
@@ -438,6 +439,18 @@ export default function BookingRegistrationPage() {
                     </div>
                   </div>
 
+                  <label className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 p-4">
+                    <input
+                      type="checkbox"
+                      checked={detailsConfirmed}
+                      onChange={(e) => setDetailsConfirmed(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      {t('booking.confirmBeforeSubmit')}
+                    </span>
+                  </label>
+
                   <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-6">{t('booking.privacyNote')}</p>
                 </div>
               )}
@@ -446,7 +459,10 @@ export default function BookingRegistrationPage() {
                 {step > 1 ? (
                   <button
                     type="button"
-                    onClick={() => setStep((s) => Math.max(1, s - 1))}
+                    onClick={() => {
+                      if (step === 4) setDetailsConfirmed(false);
+                      setStep((s) => Math.max(1, s - 1));
+                    }}
                     className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-5 py-3.5 text-sm font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors"
                   >
                     {dir === 'rtl' ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
@@ -464,7 +480,10 @@ export default function BookingRegistrationPage() {
                       (step === 2 && !canGoNext2) ||
                       (step === 3 && !canGoNext3)
                     }
-                    onClick={() => setStep((s) => Math.min(4, s + 1))}
+                    onClick={() => {
+                      if (step === 3) setDetailsConfirmed(false);
+                      setStep((s) => Math.min(4, s + 1));
+                    }}
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {t('booking.next')}
@@ -473,7 +492,7 @@ export default function BookingRegistrationPage() {
                 ) : (
                   <button
                     type="submit"
-                    disabled={submitting}
+                    disabled={submitting || !detailsConfirmed}
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-600/30 hover:bg-emerald-700 transition-all disabled:opacity-50"
                   >
                     {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}

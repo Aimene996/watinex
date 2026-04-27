@@ -10,7 +10,6 @@ import {
   MessageCircle,
   Plus,
   Minus,
-  LogIn,
   ClipboardList,
   Send,
 } from 'lucide-react';
@@ -96,8 +95,6 @@ export default function WatinexLanding() {
     { questionKey: 'landing.faqQ4', answerKey: 'landing.faqA4' },
     { questionKey: 'landing.faqQ5', answerKey: 'landing.faqA5' },
   ];
-  const showMySpaceButton = false;
-
   return (
     <>
       <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-950 transition-colors duration-300">
@@ -132,19 +129,6 @@ export default function WatinexLanding() {
 
               {/* Right side actions */}
               <div className="flex items-center gap-2">
-                {showMySpaceButton && (
-                  <div className="relative hidden sm:block">
-                    <button
-                      type="button"
-                      onClick={() => setLoginModalOpen(true)}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
-                    >
-                      <LogIn className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                      {t('nav.mySpace')}
-                    </button>
-                  </div>
-                )}
-
                 <Link
                   href="/booking"
                   className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
@@ -183,15 +167,6 @@ export default function WatinexLanding() {
                   </a>
                 ))}
                 <div className="flex gap-2 pt-2">
-                  {showMySpaceButton && (
-                    <button
-                      type="button"
-                      onClick={() => setLoginModalOpen(true)}
-                      className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-700 dark:border-slate-700 dark:text-slate-200"
-                    >
-                      {t('nav.mySpace')}
-                    </button>
-                  )}
                   <Link
                     href="/booking"
                     onClick={() => setMobileMenuOpen(false)}
