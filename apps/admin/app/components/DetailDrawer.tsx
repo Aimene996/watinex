@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   type Registration,
   type RegistrationImage,
@@ -61,12 +61,19 @@ export default function DetailDrawer({
     ? "bg-slate-900/60 border-slate-700/60 text-slate-100 placeholder:text-slate-600"
     : "bg-white border-slate-200 text-slate-900 placeholder:text-slate-400";
 
-  useEffect(() => {
-    if (registration) {
-      setNotes(registration.admin_notes ?? "");
+  const handleClose = useCallback(() => {
+    setClosing(true);
+    setTimeout(() => {
+      onClose();
       setClosing(false);
-      setUploadError(null);
-    }
+    }, 250);
+  }, [onClose]);
+
+  useEffect(() => {
+    if (!registration) return;
+    setNotes(registration.admin_notes ?? "");
+    setClosing(false);
+    setUploadError(null);
   }, [registration]);
 
   // Escape key to close
@@ -76,15 +83,7 @@ export default function DetailDrawer({
     };
     if (registration) window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [registration]);
-
-  const handleClose = () => {
-    setClosing(true);
-    setTimeout(() => {
-      onClose();
-      setClosing(false);
-    }, 250);
-  };
+  }, [registration, handleClose]);
 
   if (!registration) return null;
 

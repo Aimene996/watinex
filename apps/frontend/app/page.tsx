@@ -105,7 +105,7 @@ export default function WatinexLanding() {
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-between items-center h-16 lg:h-18">
               {/* Logo */}
-              <a href="/" className="flex items-center shrink-0">
+              <Link href="/" className="flex items-center shrink-0">
                 <Image
                   src={watinexLogo}
                   alt="WATINEX"
@@ -113,7 +113,7 @@ export default function WatinexLanding() {
                   priority
                   sizes="280px"
                 />
-              </a>
+              </Link>
 
               {/* Desktop nav */}
               <div className="hidden lg:flex items-center gap-6">
