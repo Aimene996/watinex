@@ -6,6 +6,7 @@ import {
   STATUSES,
   SERVICE_TYPES,
   NICHE_OPTIONS,
+  type Locale,
   statusLabel,
   serviceLabel,
   nicheLabel,
@@ -31,6 +32,7 @@ interface FilterBarProps {
     refresh: string;
   };
   themeMode: "dark" | "light";
+  locale: Locale;
 }
 
 export default function FilterBar({
@@ -49,8 +51,10 @@ export default function FilterBar({
   loading,
   text,
   themeMode,
+  locale,
 }: FilterBarProps) {
   const isDark = themeMode === "dark";
+  const isRtl = locale === "ar";
   const inputBg = isDark
     ? "bg-slate-900/60 border-slate-700/60 text-slate-100 placeholder:text-slate-500"
     : "bg-white border-slate-200 text-slate-900 placeholder:text-slate-400";
@@ -73,14 +77,16 @@ export default function FilterBar({
       {/* Search Row */}
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <div className="relative flex-1">
-          <span className={`material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-lg ${muted}`}>
+          <span className={`material-symbols-outlined absolute top-1/2 -translate-y-1/2 text-lg ${muted} ${isRtl ? "right-3" : "left-3"}`}>
             search
           </span>
           <input
             value={q}
             onChange={(e) => onQChange(e.target.value)}
             placeholder={text.search}
-            className={`w-full rounded-xl border py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 ${inputBg}`}
+            className={`w-full rounded-xl border py-2.5 text-sm outline-none transition-colors focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 ${inputBg} ${
+              isRtl ? "pr-10 pl-4 text-right" : "pl-10 pr-4 text-left"
+            }`}
           />
         </div>
         <div className="flex items-center gap-2">
@@ -106,9 +112,9 @@ export default function FilterBar({
           onChange={(e) => onStatusChange(e.target.value as RegistrationStatus | "")}
           className={`rounded-lg border px-3 py-1.5 text-xs font-medium outline-none transition-colors ${selectBg}`}
         >
-          <option value="">All Status</option>
+          <option value="">{locale === "ar" ? "كل الحالات" : "Tous les statuts"}</option>
           {STATUSES.map((s) => (
-            <option key={s} value={s}>{statusLabel(s)}</option>
+            <option key={s} value={s}>{statusLabel(s, locale)}</option>
           ))}
         </select>
 
@@ -118,9 +124,9 @@ export default function FilterBar({
           onChange={(e) => onServiceChange(e.target.value as ServiceType | "")}
           className={`rounded-lg border px-3 py-1.5 text-xs font-medium outline-none transition-colors ${selectBg}`}
         >
-          <option value="">All Services</option>
+          <option value="">{locale === "ar" ? "كل الخدمات" : "Tous les services"}</option>
           {SERVICE_TYPES.map((s) => (
-            <option key={s} value={s}>{serviceLabel(s)}</option>
+            <option key={s} value={s}>{serviceLabel(s, locale)}</option>
           ))}
         </select>
 
@@ -130,9 +136,9 @@ export default function FilterBar({
           onChange={(e) => onNicheChange(e.target.value)}
           className={`rounded-lg border px-3 py-1.5 text-xs font-medium outline-none transition-colors ${selectBg}`}
         >
-          <option value="">All Niches</option>
+          <option value="">{locale === "ar" ? "كل المجالات" : "Toutes les niches"}</option>
           {NICHE_OPTIONS.map((n) => (
-            <option key={n} value={n}>{nicheLabel(n)}</option>
+            <option key={n} value={n}>{nicheLabel(n, locale)}</option>
           ))}
         </select>
 
@@ -142,9 +148,9 @@ export default function FilterBar({
           onChange={(e) => onImportedChange(e.target.value as "" | "yes" | "no")}
           className={`rounded-lg border px-3 py-1.5 text-xs font-medium outline-none transition-colors ${selectBg}`}
         >
-          <option value="">Imported?</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
+          <option value="">{locale === "ar" ? "تم الاستيراد؟" : "Importé ?"}</option>
+          <option value="yes">{locale === "ar" ? "نعم" : "Oui"}</option>
+          <option value="no">{locale === "ar" ? "لا" : "Non"}</option>
         </select>
 
         {activeFiltersCount > 0 && (
@@ -154,7 +160,9 @@ export default function FilterBar({
             className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10"
           >
             <span className="material-symbols-outlined text-sm">close</span>
-            Clear {activeFiltersCount} filter{activeFiltersCount > 1 ? "s" : ""}
+            {locale === "ar"
+              ? `مسح ${activeFiltersCount} ${activeFiltersCount > 1 ? "فلاتر" : "فلتر"}`
+              : `Effacer ${activeFiltersCount} filtre${activeFiltersCount > 1 ? "s" : ""}`}
           </button>
         )}
       </div>

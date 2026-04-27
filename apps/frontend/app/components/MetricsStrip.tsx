@@ -43,7 +43,7 @@ export function MetricsStrip() {
   const retention = useInViewCounter(98, visible);
 
   const fmt = (n: number) =>
-    new Intl.NumberFormat(locale === 'ar' ? 'ar-DZ' : locale === 'fr' ? 'fr-DZ' : 'en-US').format(n);
+    new Intl.NumberFormat(locale === 'ar' ? 'ar-DZ' : 'fr-DZ').format(n);
 
   const items = [
     { icon: Users, value: `${fmt(clients)}+`, label: t('metrics.clients'), color: 'bg-blue-600' },

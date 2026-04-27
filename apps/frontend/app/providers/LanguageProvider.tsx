@@ -1,17 +1,16 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import en from "../../locales/en.json";
 import ar from "../../locales/ar.json";
 import fr from "../../locales/fr.json";
 
 const LOCALE_COOKIE = "locale";
 const LOCALE_STORAGE = "locale";
 
-type Locale = "ar" | "en" | "fr";
+type Locale = "ar" | "fr";
 type Translations = typeof ar;
 
-const translations: Record<Locale, Translations> = { ar, en, fr };
+const translations: Record<Locale, Translations> = { ar, fr };
 
 function setLocaleCookie(value: Locale) {
   if (typeof document === "undefined") return;

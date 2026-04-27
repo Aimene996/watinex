@@ -8,12 +8,14 @@ import {
   serviceLabel,
   nicheLabel,
   relativeAge,
+  type Locale,
 } from "../lib";
 
 interface RegistrationTableProps {
   registrations: Registration[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onGeneratePdf?: (id: string) => void;
   themeMode: "dark" | "light";
   text: {
     recentSubmissions: string;
@@ -21,22 +23,28 @@ interface RegistrationTableProps {
     of: string;
     noData: string;
   };
+  locale: Locale;
 }
 
 export default function RegistrationTable({
   registrations,
   selectedId,
   onSelect,
+  onGeneratePdf,
   themeMode,
   text,
+  locale,
 }: RegistrationTableProps) {
   const isDark = themeMode === "dark";
+  const isRtl = locale === "ar";
   const cardBg = isDark ? "bg-slate-900/50 border-slate-800/50" : "bg-white border-slate-200";
   const headerBg = isDark ? "bg-slate-800/30" : "bg-slate-50";
   const headerText = isDark ? "text-slate-400" : "text-slate-500";
   const rowBorder = isDark ? "border-slate-800/30" : "border-slate-100";
   const rowHover = isDark ? "hover:bg-slate-800/30" : "hover:bg-blue-50/50";
-  const rowSelected = isDark ? "bg-blue-500/8 border-l-blue-500" : "bg-blue-50 border-l-blue-500";
+  const rowSelected = isDark
+    ? `bg-blue-500/8 ${isRtl ? "border-r-blue-500" : "border-l-blue-500"}`
+    : `bg-blue-50 ${isRtl ? "border-r-blue-500" : "border-l-blue-500"}`;
   const muted = isDark ? "text-slate-500" : "text-slate-400";
 
   if (registrations.length === 0) {
@@ -46,7 +54,7 @@ export default function RegistrationTable({
           <span className={`material-symbols-outlined text-3xl ${muted}`}>inbox</span>
         </div>
         <p className={`text-sm font-medium ${muted}`}>{text.noData}</p>
-        <p className={`mt-1 text-xs ${muted}`}>Try adjusting your filters or search query</p>
+        <p className={`mt-1 text-xs ${muted}`}>{locale === "ar" ? "حاول تعديل الفلاتر أو البحث" : "Essayez de modifier vos filtres ou votre recherche"}</p>
       </div>
     );
   }
@@ -63,16 +71,18 @@ export default function RegistrationTable({
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
+        <table className={`w-full text-sm ${isRtl ? "text-right" : "text-left"}`}>
           <thead>
             <tr className={`border-b ${rowBorder} ${headerBg}`}>
-              <th className={`px-5 py-3 text-[11px] font-semibold uppercase tracking-wider ${headerText}`}>Name</th>
-              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider md:table-cell ${headerText}`}>Email</th>
-              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider lg:table-cell ${headerText}`}>Phone</th>
-              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider sm:table-cell ${headerText}`}>Service</th>
-              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider xl:table-cell ${headerText}`}>Niche</th>
-              <th className={`px-5 py-3 text-[11px] font-semibold uppercase tracking-wider ${headerText}`}>Status</th>
-              <th className={`px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-wider ${headerText}`}>Date</th>
+              <th className={`px-5 py-3 text-[11px] font-semibold uppercase tracking-wider ${headerText}`}>{locale === "ar" ? "الاسم" : "Nom"}</th>
+              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider md:table-cell ${headerText}`}>{locale === "ar" ? "البريد" : "Email"}</th>
+              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider lg:table-cell ${headerText}`}>{locale === "ar" ? "الهاتف" : "Téléphone"}</th>
+              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider sm:table-cell ${headerText}`}>{locale === "ar" ? "الخدمة" : "Service"}</th>
+              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider xl:table-cell ${headerText}`}>{locale === "ar" ? "المجال" : "Niche"}</th>
+              <th className={`hidden px-5 py-3 text-[11px] font-semibold uppercase tracking-wider xl:table-cell ${headerText}`}>{locale === "ar" ? "ملاحظات" : "Notes"}</th>
+              <th className={`px-5 py-3 text-[11px] font-semibold uppercase tracking-wider ${headerText}`}>{locale === "ar" ? "الحالة" : "Statut"}</th>
+              <th className={`px-5 py-3 text-[11px] font-semibold uppercase tracking-wider ${headerText} ${isRtl ? "text-left" : "text-right"}`}>{locale === "ar" ? "التاريخ" : "Date"}</th>
+              <th className={`px-5 py-3 text-[11px] font-semibold uppercase tracking-wider ${headerText} ${isRtl ? "text-right" : "text-left"}`}>{locale === "ar" ? "PDF" : "PDF"}</th>
             </tr>
           </thead>
           <tbody>
@@ -82,10 +92,10 @@ export default function RegistrationTable({
                 <tr
                   key={reg.id}
                   onClick={() => onSelect(reg.id)}
-                  className={`cursor-pointer border-b border-l-2 transition-all duration-150 ${rowBorder} ${
+                  className={`cursor-pointer border-b transition-all duration-150 ${rowBorder} ${isRtl ? "border-r-2" : "border-l-2"} ${
                     isSelected
                       ? rowSelected
-                      : `border-l-transparent ${rowHover}`
+                      : `${isRtl ? "border-r-transparent" : "border-l-transparent"} ${rowHover}`
                   }`}
                   style={{ animationDelay: `${idx * 30}ms` }}
                 >
@@ -107,7 +117,7 @@ export default function RegistrationTable({
                         ? isDark ? "bg-cyan-500/10 text-cyan-400" : "bg-cyan-50 text-cyan-700"
                         : isDark ? "bg-violet-500/10 text-violet-400" : "bg-violet-50 text-violet-700"
                     }`}>
-                      {serviceLabel(reg.service_type)}
+                      {serviceLabel(reg.service_type, locale)}
                     </span>
                   </td>
                   <td className="hidden px-5 py-3.5 xl:table-cell">
@@ -119,13 +129,16 @@ export default function RegistrationTable({
                             isDark ? "bg-slate-800/60 text-slate-400" : "bg-slate-100 text-slate-500"
                           }`}
                         >
-                          {nicheLabel(n)}
+                          {nicheLabel(n, locale)}
                         </span>
                       ))}
                       {reg.niche.length > 2 && (
                         <span className={`text-[10px] ${muted}`}>+{reg.niche.length - 2}</span>
                       )}
                     </div>
+                  </td>
+                  <td className={`hidden max-w-[180px] px-5 py-3.5 text-xs xl:table-cell ${muted}`}>
+                    <span className="line-clamp-2">{(reg.admin_notes ?? "").trim() || "—"}</span>
                   </td>
                   <td className="px-5 py-3.5">
                     <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${statusColor(reg.status)}`}>
@@ -135,11 +148,26 @@ export default function RegistrationTable({
                         reg.status === "CONFIRMED" ? "bg-emerald-400" :
                         "bg-red-400"
                       }`} />
-                      {statusLabel(reg.status)}
+                      {statusLabel(reg.status, locale)}
                     </span>
                   </td>
-                  <td className={`px-5 py-3.5 text-right text-xs ${muted}`}>
-                    {relativeAge(reg.created_at)}
+                  <td className={`px-5 py-3.5 text-xs ${muted} ${isRtl ? "text-left" : "text-right"}`}>
+                    {relativeAge(reg.created_at, locale)}
+                  </td>
+                  <td className={`px-5 py-3.5 ${isRtl ? "text-right" : "text-left"}`}>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onGeneratePdf?.(reg.id);
+                      }}
+                      className={`rounded-lg p-2 transition-colors ${
+                        isDark ? "text-blue-300 hover:bg-slate-800/70" : "text-blue-700 hover:bg-blue-50"
+                      }`}
+                      aria-label={locale === "ar" ? "توليد PDF" : "Generate PDF"}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                    </button>
                   </td>
                 </tr>
               );

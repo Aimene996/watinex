@@ -4,9 +4,8 @@ import { useLanguage } from "../providers/LanguageProvider";
 import { ChevronDown, Languages } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-const LOCALES: { value: "ar" | "en" | "fr"; label: string }[] = [
+const LOCALES: { value: "ar" | "fr"; label: string }[] = [
   { value: "ar", label: "العربية" },
-  { value: "en", label: "English" },
   { value: "fr", label: "Français" },
 ];
 

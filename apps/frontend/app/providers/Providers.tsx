@@ -3,7 +3,7 @@
 import { ThemeProvider } from "./ThemeProvider";
 import { LanguageProvider } from "./LanguageProvider";
 
-type Locale = "ar" | "en" | "fr";
+type Locale = "ar" | "fr";
 
 export function Providers({
   children,

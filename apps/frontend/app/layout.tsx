@@ -30,7 +30,7 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies();
   const localeCookie = cookieStore.get("locale")?.value;
-  const initialLocale = localeCookie === "en" || localeCookie === "ar" || localeCookie === "fr" ? localeCookie : "ar";
+  const initialLocale = localeCookie === "ar" || localeCookie === "fr" ? localeCookie : "ar";
   const dir = initialLocale === "ar" ? "rtl" : "ltr";
 
   return (

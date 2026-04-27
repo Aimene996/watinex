@@ -11,6 +11,7 @@ interface StatsStripProps {
     rejected: number;
   };
   themeMode: "dark" | "light";
+  locale: "ar" | "fr";
 }
 
 function AnimatedNumber({ value }: { value: number }) {
@@ -45,7 +46,7 @@ function AnimatedNumber({ value }: { value: number }) {
   return <span>{display}</span>;
 }
 
-export default function StatsStrip({ stats, themeMode }: StatsStripProps) {
+export default function StatsStrip({ stats, themeMode, locale }: StatsStripProps) {
   const isDark = themeMode === "dark";
   const cardBg = isDark ? "bg-slate-900/50" : "bg-white";
   const border = isDark ? "border-slate-800/50" : "border-slate-200";
@@ -53,7 +54,7 @@ export default function StatsStrip({ stats, themeMode }: StatsStripProps) {
 
   const cards = [
     {
-      label: "Total Leads",
+      label: locale === "ar" ? "إجمالي العملاء" : "Total des prospects",
       value: stats.total,
       icon: "groups",
       accentClass: "stat-card-blue",
@@ -61,7 +62,7 @@ export default function StatsStrip({ stats, themeMode }: StatsStripProps) {
       gradientBg: isDark ? "bg-blue-500/5" : "bg-blue-50",
     },
     {
-      label: "New Today",
+      label: locale === "ar" ? "اليوم" : "Nouveaux aujourd'hui",
       value: stats.newToday,
       icon: "fiber_new",
       accentClass: "stat-card-violet",
@@ -69,7 +70,7 @@ export default function StatsStrip({ stats, themeMode }: StatsStripProps) {
       gradientBg: isDark ? "bg-violet-500/5" : "bg-violet-50",
     },
     {
-      label: "Follow-up",
+      label: locale === "ar" ? "متابعة" : "Suivi",
       value: stats.pending,
       icon: "schedule",
       accentClass: "stat-card-amber",
@@ -77,7 +78,7 @@ export default function StatsStrip({ stats, themeMode }: StatsStripProps) {
       gradientBg: isDark ? "bg-amber-500/5" : "bg-amber-50",
     },
     {
-      label: "Confirmed",
+      label: locale === "ar" ? "مؤكد" : "Confirmé",
       value: stats.confirmed,
       icon: "verified",
       accentClass: "stat-card-emerald",

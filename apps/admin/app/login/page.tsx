@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 
 export default function LoginPage() {
+  const [language, setLanguage] = useState<"ar" | "fr">("ar");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -19,6 +20,33 @@ export default function LoginPage() {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language]);
+
+  const text = language === "ar"
+    ? {
+        title: "لوحة واتينيكس",
+        subtitle: "سجل الدخول لإدارة التسجيلات",
+        email: "البريد الإلكتروني",
+        password: "كلمة المرور",
+        signIn: "تسجيل الدخول",
+        signingIn: "جار تسجيل الدخول...",
+        hint: "أول مرة؟ اطلب من مسؤول الفريق إنشاء حسابك الإداري في Supabase.",
+        serverError: "تعذر الوصول إلى الخادم.",
+      }
+    : {
+        title: "Watinex Admin",
+        subtitle: "Connectez-vous pour gérer les inscriptions",
+        email: "Email",
+        password: "Mot de passe",
+        signIn: "Se connecter",
+        signingIn: "Connexion...",
+        hint: "Première fois ? Demandez à votre responsable de créer votre compte admin dans Supabase.",
+        serverError: "Impossible de joindre le serveur.",
+      };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +66,7 @@ export default function LoginPage() {
 
       window.location.replace("/");
     } catch {
-      setError("Could not reach the server.");
+      setError(text.serverError);
     } finally {
       setLoading(false);
     }
@@ -53,10 +81,22 @@ export default function LoginPage() {
                style={{ background: "linear-gradient(135deg, #06b6d4, #8b5cf6)" }}>
             <span className="text-2xl font-extrabold text-white">W</span>
           </div>
-          <h1 className="text-2xl font-bold text-white">Watinex Admin</h1>
+          <h1 className="text-2xl font-bold text-white">{text.title}</h1>
           <p className="mt-2 text-sm text-slate-400">
-            Sign in to manage registrations
+            {text.subtitle}
           </p>
+        </div>
+
+        <div className="mb-4 flex justify-center">
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as "ar" | "fr")}
+            className="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-xs text-slate-200"
+            aria-label="Language"
+          >
+            <option value="ar">🇩🇿 AR</option>
+            <option value="fr">🇫🇷 FR</option>
+          </select>
         </div>
 
         {/* Login card */}
@@ -70,7 +110,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Email
+                {text.email}
               </label>
               <input
                 type="email"
@@ -85,7 +125,7 @@ export default function LoginPage() {
 
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Password
+                {text.password}
               </label>
               <input
                 type="password"
@@ -108,15 +148,15 @@ export default function LoginPage() {
                   <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="60" strokeDashoffset="15" strokeLinecap="round" />
                   </svg>
-                  Signing in…
+                  {text.signingIn}
                 </span>
-              ) : "Sign in"}
+              ) : text.signIn}
             </button>
           </form>
 
           <div className="mt-5 border-t border-slate-800 pt-4">
             <p className="text-center text-xs text-slate-500">
-              First time? Ask your team lead to create your admin account in Supabase.
+              {text.hint}
             </p>
           </div>
         </div>

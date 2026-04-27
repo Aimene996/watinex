@@ -17,6 +17,13 @@ export type Registration = {
   updated_at: string;
 };
 
+export type RegistrationImage = {
+  id: string;
+  registration_id: string;
+  image_data_url: string;
+  created_at: string;
+};
+
 export const STATUSES: RegistrationStatus[] = ['NEW', 'CONTACTED', 'CONFIRMED', 'REJECTED'];
 export const SERVICE_TYPES: ServiceType[] = ['SHIPPING', 'SOURCING'];
 
@@ -24,14 +31,24 @@ export const NICHE_OPTIONS = [
   'electronics', 'clothing', 'home', 'auto', 'beauty', 'toys', 'sports', 'other',
 ] as const;
 
+export type Locale = "ar" | "fr";
+
 // ── Display helpers ────────────────────────────────────────────────
 
-export function statusLabel(s: RegistrationStatus): string {
+export function statusLabel(s: RegistrationStatus, locale: Locale = "ar"): string {
+  if (locale === "fr") {
+    switch (s) {
+      case 'NEW': return 'Nouveau';
+      case 'CONTACTED': return 'Contacté';
+      case 'CONFIRMED': return 'Confirmé';
+      case 'REJECTED': return 'Rejeté';
+    }
+  }
   switch (s) {
-    case 'NEW': return 'New';
-    case 'CONTACTED': return 'Contacted';
-    case 'CONFIRMED': return 'Confirmed';
-    case 'REJECTED': return 'Rejected';
+    case 'NEW': return 'جديد';
+    case 'CONTACTED': return 'تم التواصل';
+    case 'CONFIRMED': return 'مؤكد';
+    case 'REJECTED': return 'مرفوض';
   }
 }
 
@@ -44,8 +61,11 @@ export function statusColor(s: RegistrationStatus): string {
   }
 }
 
-export function serviceLabel(s: ServiceType): string {
-  return s === 'SHIPPING' ? '🚢 Shipping' : '🔍 Sourcing';
+export function serviceLabel(s: ServiceType, locale: Locale = "ar"): string {
+  if (locale === "fr") {
+    return s === 'SHIPPING' ? '🚢 Expédition' : '🔍 Sourcing';
+  }
+  return s === 'SHIPPING' ? '🚢 الشحن' : '🔍 التوريد';
 }
 
 export function serviceColor(s: ServiceType): string {
@@ -54,35 +74,53 @@ export function serviceColor(s: ServiceType): string {
     : 'bg-violet-500/20 text-violet-300 border-violet-500/30';
 }
 
-export function nicheLabel(n: string): string {
-  const map: Record<string, string> = {
-    electronics: '⚡ Electronics',
-    clothing: '👕 Clothing',
-    home: '🏠 Home Goods',
-    auto: '🚗 Auto Parts',
-    beauty: '💄 Beauty',
-    toys: '🧸 Toys',
-    sports: '⚽ Sports',
-    other: '📦 Other',
+export function nicheLabel(n: string, locale: Locale = "ar"): string {
+  const mapAr: Record<string, string> = {
+    electronics: '⚡ إلكترونيات',
+    clothing: '👕 ملابس',
+    home: '🏠 مستلزمات المنزل',
+    auto: '🚗 قطع غيار السيارات',
+    beauty: '💄 تجميل',
+    toys: '🧸 ألعاب',
+    sports: '⚽ رياضة',
+    other: '📦 أخرى',
   };
-  return map[n] ?? n;
+  const mapFr: Record<string, string> = {
+    electronics: '⚡ Électronique',
+    clothing: '👕 Vêtements',
+    home: '🏠 Maison',
+    auto: '🚗 Auto',
+    beauty: '💄 Beauté',
+    toys: '🧸 Jouets',
+    sports: '⚽ Sport',
+    other: '📦 Autre',
+  };
+  return (locale === "fr" ? mapFr[n] : mapAr[n]) ?? n;
 }
 
 // ── Time helpers ───────────────────────────────────────────────────
 
-export function relativeAge(dateStr: string): string {
+export function relativeAge(dateStr: string, locale: Locale = "ar"): string {
   const ms = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(ms / 60000);
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
+  if (locale === "fr") {
+    if (mins < 1) return 'à l’instant';
+    if (mins < 60) return `il y a ${mins} min`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `il y a ${hrs} h`;
+    const days = Math.floor(hrs / 24);
+    return `il y a ${days} j`;
+  }
+  if (mins < 1) return 'الآن';
+  if (mins < 60) return `منذ ${mins} د`;
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
+  if (hrs < 24) return `منذ ${hrs} س`;
   const days = Math.floor(hrs / 24);
-  return `${days}d ago`;
+  return `منذ ${days} ي`;
 }
 
-export function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleString('en-GB', {
+export function formatDate(dateStr: string, locale: Locale = "ar"): string {
+  return new Date(dateStr).toLocaleString(locale === "fr" ? "fr-FR" : "ar-DZ", {
     day: '2-digit', month: 'short', year: 'numeric',
     hour: '2-digit', minute: '2-digit',
   });

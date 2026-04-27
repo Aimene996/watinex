@@ -31,7 +31,6 @@ import { Footer } from './components/Footer';
 import { StickyActionBar } from './components/StickyActionBar';
 import { FinancingAlert } from './components/FinancingAlert';
 import { useLanguage } from './providers/LanguageProvider';
-import { supabase } from '../lib/supabase';
 
 export default function WatinexLanding() {
   const { t } = useLanguage();
@@ -39,14 +38,13 @@ export default function WatinexLanding() {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [loginSubmitting, setLoginSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const whatsappNumber = '+213794964029';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`;
   const telegramGroupUrl = process.env.NEXT_PUBLIC_TELEGRAM_GROUP_URL ?? 'https://t.me/watinex';
-  const adminLoginUrl = process.env.NEXT_PUBLIC_ADMIN_LOGIN_URL ?? '/admin/login';
+  const adminAppUrl = process.env.NEXT_PUBLIC_ADMIN_APP_URL ?? 'https://watinex-panel-admin.vercel.app';
   const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? 'admin@your-company.com')
     .split(',')
     .map((item) => item.trim().toLowerCase())
@@ -75,23 +73,12 @@ export default function WatinexLanding() {
       return;
     }
 
-    setLoginSubmitting(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: normalizedEmail,
-      password: loginPassword,
-    });
-    setLoginSubmitting(false);
-
-    if (error) {
-      setToastMessage('Invalid admin email or password');
-      return;
-    }
-
+    // Frontend and admin run on separate domains, so auth must happen in admin app.
     setLoginModalOpen(false);
     setMobileMenuOpen(false);
     setLoginEmail('');
     setLoginPassword('');
-    window.location.href = adminLoginUrl;
+    window.location.href = adminAppUrl;
   };
 
   const navLinks = [
@@ -109,6 +96,7 @@ export default function WatinexLanding() {
     { questionKey: 'landing.faqQ4', answerKey: 'landing.faqA4' },
     { questionKey: 'landing.faqQ5', answerKey: 'landing.faqA5' },
   ];
+  const showMySpaceButton = false;
 
   return (
     <>
@@ -144,16 +132,18 @@ export default function WatinexLanding() {
 
               {/* Right side actions */}
               <div className="flex items-center gap-2">
-                <div className="relative hidden sm:block">
-                  <button
-                    type="button"
-                    onClick={() => setLoginModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
-                  >
-                    <LogIn className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                    {t('nav.mySpace')}
-                  </button>
-                </div>
+                {showMySpaceButton && (
+                  <div className="relative hidden sm:block">
+                    <button
+                      type="button"
+                      onClick={() => setLoginModalOpen(true)}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+                    >
+                      <LogIn className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      {t('nav.mySpace')}
+                    </button>
+                  </div>
+                )}
 
                 <Link
                   href="/booking"
@@ -193,13 +183,15 @@ export default function WatinexLanding() {
                   </a>
                 ))}
                 <div className="flex gap-2 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setLoginModalOpen(true)}
-                    className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-700 dark:border-slate-700 dark:text-slate-200"
-                  >
-                    {t('nav.mySpace')}
-                  </button>
+                  {showMySpaceButton && (
+                    <button
+                      type="button"
+                      onClick={() => setLoginModalOpen(true)}
+                      className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                    >
+                      {t('nav.mySpace')}
+                    </button>
+                  )}
                   <Link
                     href="/booking"
                     onClick={() => setMobileMenuOpen(false)}
@@ -364,10 +356,9 @@ export default function WatinexLanding() {
               />
               <button
                 type="submit"
-                disabled={loginSubmitting}
                 className="w-full rounded-lg bg-blue-600 px-3 py-2.5 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-60"
               >
-                {loginSubmitting ? 'Checking...' : 'Continue'}
+                Continue
               </button>
             </form>
           </div>
