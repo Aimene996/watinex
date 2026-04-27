@@ -4,33 +4,17 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Sparkles, Gift, ArrowLeft, X, Phone } from 'lucide-react';
 
-const STORAGE_KEY = 'free_consultation_popup_dismissed_at';
-const DISMISS_DURATION_MS = 1000 * 60 * 60 * 12; // 12 hours
-
 export function FreeConsultationPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const dismissedAt = window.localStorage.getItem(STORAGE_KEY);
-    if (dismissedAt) {
-      const timeSince = Date.now() - Number(dismissedAt);
-      if (Number.isFinite(timeSince) && timeSince < DISMISS_DURATION_MS) {
-        return;
-      }
-    }
-
     const timer = window.setTimeout(() => setIsOpen(true), 3200);
     return () => window.clearTimeout(timer);
   }, []);
 
   const dismiss = () => {
     setIsClosing(true);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(STORAGE_KEY, String(Date.now()));
-    }
     window.setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
