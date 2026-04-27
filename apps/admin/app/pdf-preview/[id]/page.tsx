@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
-import type { Registration, RegistrationImage } from "../../lib";
+import { formatDate, type Registration, type RegistrationImage } from "../../lib";
 
 export default function PdfPreviewPage() {
   const params = useParams<{ id: string }>();
@@ -113,6 +113,7 @@ export default function PdfPreviewPage() {
             <p><strong>Name:</strong> {registration.full_name}</p>
             <p><strong>Phone:</strong> {registration.phone}</p>
             <p><strong>Email:</strong> {registration.email}</p>
+            <p><strong>Date:</strong> {formatDate(registration.created_at, "fr")}</p>
             <p><strong>Imported Before:</strong> {importedLabel}</p>
             <p><strong>Service:</strong> {registration.service_type}</p>
             <p><strong>Status:</strong> {registration.status}</p>
