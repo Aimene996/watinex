@@ -29,6 +29,7 @@ import { ContactCTA } from './components/ContactCTA';
 import { Footer } from './components/Footer';
 import { StickyActionBar } from './components/StickyActionBar';
 import { FinancingAlert } from './components/FinancingAlert';
+import { FreeConsultationPopup } from './components/FreeConsultationPopup';
 import { useLanguage } from './providers/LanguageProvider';
 
 export default function WatinexLanding() {
@@ -341,6 +342,7 @@ export default function WatinexLanding() {
       )}
 
       <StickyActionBar whatsappLink={whatsappLink} />
+      <FreeConsultationPopup />
     </>
   );
 }
