@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { cookies } from "next/headers";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers/Providers";
@@ -23,21 +22,18 @@ export const metadata: Metadata = {
   keywords: "import Algeria, China import, Dubai import, e-commerce import, sourcing Algeria",
 };
 
-export default async function RootLayout({
+const DEFAULT_LOCALE = "ar";
+
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const localeCookie = cookieStore.get("locale")?.value;
-  const initialLocale = localeCookie === "ar" || localeCookie === "fr" ? localeCookie : "ar";
-  const dir = initialLocale === "ar" ? "rtl" : "ltr";
-
   return (
-    <html lang={initialLocale} dir={dir} suppressHydrationWarning>
+    <html lang={DEFAULT_LOCALE} dir="rtl" suppressHydrationWarning>
       <body className={`${cairo.variable} antialiased`} suppressHydrationWarning>
         <SplashScreen />
-        <Providers initialLocale={initialLocale}>
+        <Providers initialLocale={DEFAULT_LOCALE}>
           {children}
         </Providers>
       </body>
