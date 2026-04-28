@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Remove standalone for Vercel deployment
-  // Remove old backend rewrites (we use Supabase now)
+  output: "export",
+  images: { unoptimized: true },
 };
 
 export default nextConfig;
